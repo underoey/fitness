@@ -3,46 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>薄肌12周启动计划 · 含休息计时器</title>
+<title>薄肌12周启动计划</title>
 <style>
+  /* === 全新清爽浅色主题 === */
   :root{
-    --bg:#0f1115; --card:#171a21; --line:#262b36; --txt:#e8eaed;
-    --muted:#9aa3b2; --accent:#4f8cff; --green:#35c98a; --orange:#ff9f43;
+    --bg: #f4f6f8;         /* 整体浅灰背景 */
+    --card: #ffffff;       /* 卡片纯白 */
+    --line: #e5e7eb;       /* 边框浅灰 */
+    --txt: #1f2937;        /* 主要文字深灰 */
+    --muted: #6b7280;      /* 次要文字 */
+    --accent: #3b82f6;     /* 主题蓝 */
+    --green: #10b981;      /* 绿色（组数） */
+    --orange: #f59e0b;     /* 橙色（弱项标签） */
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:20px;line-height:1.6}
-  .wrap{max-width:900px;margin:0 auto}
-  h1{font-size:24px;margin-bottom:4px}
-  .sub{color:var(--muted);font-size:13px;margin-bottom:24px}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:24px;line-height:1.5}
+  .wrap{max-width:800px;margin:0 auto}
+  h1{font-size:24px;margin-bottom:24px;text-align:center;font-weight:700}
 
-  /* === 新增：Tab 标签页样式 === */
+  /* === 新增：按天 Tab 标签页样式 === */
   .tabs-container {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 24px;
-    border-bottom: 1px solid var(--line);
     padding-bottom: 10px;
     overflow-x: auto;
   }
   .tab-btn {
-    background: transparent;
+    background: var(--card);
     color: var(--muted);
-    border: none;
+    border: 1px solid var(--line);
     font-size: 15px;
     font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
   }
   .tab-btn:hover {
-    background: rgba(79, 140, 255, 0.1);
+    border-color: var(--accent);
     color: var(--accent);
   }
   .tab-btn.active {
     background: var(--accent);
     color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
   }
   
   /* 默认隐藏 Tab 内容，通过 JS 控制显示 */
@@ -58,56 +66,61 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* 原有的阶段和卡片样式 */
-  .phase{margin-bottom:28px}
-  .phase-title{font-size:17px;font-weight:700;color:var(--accent);margin-bottom:2px}
+  /* 阶段和卡片样式 */
+  .phase{margin-bottom:32px}
+  .phase-title{font-size:16px;font-weight:700;color:var(--accent);margin-bottom:4px}
   .phase-desc{font-size:13px;color:var(--muted);margin-bottom:12px}
-  .day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
-  .day-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-  .day-name{font-weight:700;font-size:15px}
-  .day-tag{font-size:11px;padding:2px 8px;border-radius:999px;background:#1f2a3d;color:var(--accent)}
-  .day-tag.weak{background:#2a2418;color:var(--orange)}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th{text-align:left;color:var(--muted);font-weight:500;padding:6px 8px;border-bottom:1px solid var(--line);font-size:12px}
-  td{padding:7px 8px;border-bottom:1px solid #1e222b;vertical-align:middle}
+  .day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+  .day-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .day-name{font-weight:700;font-size:16px}
+  .day-tag{font-size:12px;padding:4px 10px;border-radius:999px;background:#eff6ff;color:var(--accent);font-weight:500}
+  .day-tag.weak{background:#fffbeb;color:var(--orange)}
+  
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;color:var(--muted);font-weight:600;padding:8px 8px;border-bottom:1px solid var(--line);font-size:12.5px;text-transform:uppercase;letter-spacing:0.5px}
+  td{padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   tr:last-child td{border-bottom:none}
-  .sets{color:var(--green);white-space:nowrap}
-  .note{color:var(--muted);font-size:12.5px}
-  .rest-btn{background:#1f2a3d;color:var(--accent);border:1px solid #2f3d55;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
-  .rest-btn:hover{background:#26344a}
+  .sets{color:var(--green);white-space:nowrap;font-weight:600}
+  .note{color:var(--muted);font-size:13px}
+  
+  /* 计时器按钮 */
+  .rest-btn{background:#eff6ff;color:var(--accent);border:1px solid #bfdbfe;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+  .rest-btn:hover{background:#dbeafe}
   
   /* 计时器弹层 */
-  .timer-mask{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:99}
+  .timer-mask{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:99}
   .timer-mask.on{display:flex}
-  .timer-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 28px;text-align:center;min-width:240px}
-  .timer-label{font-size:13px;color:var(--muted);margin-bottom:6px}
-  .timer-num{font-size:52px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:2px}
+  .timer-box{background:var(--card);border-radius:24px;padding:32px 40px;text-align:center;min-width:280px;box-shadow:0 20px 40px rgba(0,0,0,0.1)}
+  .timer-label{font-size:14px;color:var(--muted);margin-bottom:8px;font-weight:500}
+  .timer-num{font-size:64px;font-weight:800;color:var(--txt);font-variant-numeric:tabular-nums;letter-spacing:2px;line-height:1}
   .timer-num.done{color:var(--green)}
-  .timer-actions{display:flex;gap:10px;justify-content:center;margin-top:16px}
-  .timer-actions button{background:#1f2a3d;color:var(--txt);border:1px solid #2f3d55;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer}
-  .timer-actions button:hover{background:#26344a}
-  .timer-actions .primary{background:var(--accent);border-color:var(--accent);color:#fff}
-  .tip{font-size:12px;color:var(--muted);margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
+  .timer-actions{display:flex;gap:12px;justify-content:center;margin-top:24px}
+  .timer-actions button{background:#f3f4f6;color:var(--txt);border:none;border-radius:12px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s}
+  .timer-actions button:hover{background:#e5e7eb}
+  .timer-actions .primary{background:var(--accent);color:#fff}
+  .timer-actions .primary:hover{background:#2563eb}
+  
+  .tip{font-size:13px;color:var(--muted);margin-top:24px;padding-top:20px;border-top:1px solid var(--line);line-height:1.8}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <!-- 去掉了副标题，只保留 H1 -->
   <h1>薄肌 12 周启动计划</h1>
-  <div class="sub">胸有轮廓 · 腹肌可见 · 不练粗壮 · 兼顾O型腿矫正 · 背部已补强 · 每个动作带休息计时器</div>
 
-  <!-- === 新增：Tab 导航栏 === -->
+  <!-- === 改为按天分类的 Tab === -->
   <div class="tabs-container">
-    <button class="tab-btn active" data-target="phase1">阶段一 (1-4周)</button>
-    <button class="tab-btn" data-target="phase2">阶段二 (5-8周)</button>
-    <button class="tab-btn" data-target="phase3">阶段三 (9-12周)</button>
+    <button class="tab-btn active" data-target="day1">周一 · 上肢推</button>
+    <button class="tab-btn" data-target="day2">周二 · 下肢</button>
+    <button class="tab-btn" data-target="day4">周四 · 上肢拉</button>
+    <button class="tab-btn" data-target="day5">周五 · 全身轻</button>
   </div>
 
-  <!-- 阶段一 -->
-  <div class="tab-content active" id="phase1">
+  <!-- ===== 周一 Tab ===== -->
+  <div class="tab-content active" id="day1">
     <div class="phase">
       <div class="phase-title">阶段一 · 第 1–4 周：找发力感</div>
-      <div class="phase-desc">动作标准优先，每组留 1–2 次余力。休息：大动作 90 秒，小动作 60 秒。</div>
-
+      <div class="phase-desc">动作标准优先，每组留 1–2 次余力。</div>
       <div class="day">
         <div class="day-head"><span class="day-name">周一 · 上肢推（强）</span><span class="day-tag">胸肩三头</span></div>
         <table>
@@ -119,52 +132,10 @@
           <tr><td>卷腹</td><td class="sets">2×15</td><td class="note">训练末尾</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
         </table>
       </div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周二 · 下肢（强）</span><span class="day-tag">臀腿+O型腿</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>蚌式开合</td><td class="sets">3×15/侧</td><td class="note">臀中肌，O型腿核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-          <tr><td>侧卧内收腿</td><td class="sets">3×15/侧</td><td class="note">大腿内侧</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-          <tr><td>罗马尼亚硬拉</td><td class="sets">4×8-12</td><td class="note">臀后侧，护膝</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
-          <tr><td>哑铃深蹲</td><td class="sets">3×10-12</td><td class="note">中等重量</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
-          <tr><td>平板支撑</td><td class="sets">2×40秒</td><td class="note">核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-        </table>
-      </div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周四 · 上肢拉（强 · 已补强）</span><span class="day-tag">背+二头</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>高位下拉</td><td class="sets">4×8-12</td><td class="note">背宽，倒三角</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
-          <tr><td>单臂哑铃划船 <b style="color:#35c98a">新增</b></td><td class="sets">3×10-12/侧</td><td class="note">补背阔厚度与发力感</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
-          <tr><td>坐姿划船</td><td class="sets">3×10-12</td><td class="note">中背厚度</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
-          <tr><td>面拉</td><td class="sets">3×12-15</td><td class="note">护肩+改善圆肩</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>哑铃弯举</td><td class="sets">3×12</td><td class="note">二头</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>仰卧举腿</td><td class="sets">2×12</td><td class="note">下腹</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-        </table>
-      </div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周五 · 全身轻（弱）</span><span class="day-tag weak">二次刺激</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>标准俯卧撑</td><td class="sets">3×8-12</td><td class="note">胸二次刺激，慢下放</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>绳索夹胸</td><td class="sets">3×12-15</td><td class="note">胸缝线条</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>直臂下压 <b style="color:#35c98a">替换硬拉</b></td><td class="sets">3×12-15</td><td class="note">背阔二次刺激，替代原硬拉</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>单腿臀桥</td><td class="sets">3×12/侧</td><td class="note">臀中肌补强</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-          <tr><td>卷腹+举腿+平板</td><td class="sets">各2组</td><td class="note">简短核心循环</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-        </table>
-      </div>
     </div>
-  </div>
-
-  <!-- 阶段二 -->
-  <div class="tab-content" id="phase2">
     <div class="phase">
       <div class="phase-title">阶段二 · 第 5–8 周：加量加控制</div>
-      <div class="phase-desc">在上阶段基础上，每个动作 +1 组或次数上限 +2；下放放慢到 2 秒，组间休息缩短 10–15 秒。</div>
-
+      <div class="phase-desc">每个动作 +1 组或次数上限 +2；下放放慢到 2 秒。</div>
       <div class="day">
         <div class="day-head"><span class="day-name">周一 · 上肢推（强）</span><span class="day-tag">胸肩三头</span></div>
         <table>
@@ -176,7 +147,42 @@
           <tr><td>卷腹</td><td class="sets">3×15</td><td class="note">末尾</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
         </table>
       </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段三 · 第 9–12 周：渐进超负荷</div>
+      <div class="phase-desc">同重量连续两次标准做满次数上限，才加 2.5kg。</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周一 · 上肢推（强）</span><span class="day-tag">胸肩三头</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>上斜哑铃卧推</td><td class="sets">4×10-12</td><td class="note">优先上胸</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
+          <tr><td>平板哑铃卧推</td><td class="sets">5×8-12</td><td class="note">保标准</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
+          <tr><td>坐姿哑铃推举</td><td class="sets">3×12</td><td class="note">肩宽</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
+          <tr><td>绳索下压</td><td class="sets">3×15</td><td class="note">三头</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>卷腹</td><td class="sets">3×15</td><td class="note">末尾</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
 
+  <!-- ===== 周二 Tab ===== -->
+  <div class="tab-content" id="day2">
+    <div class="phase">
+      <div class="phase-title">阶段一 · 第 1–4 周：找发力感</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周二 · 下肢（强）</span><span class="day-tag">臀腿+O型腿</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>蚌式开合</td><td class="sets">3×15/侧</td><td class="note">臀中肌，O型腿核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+          <tr><td>侧卧内收腿</td><td class="sets">3×15/侧</td><td class="note">大腿内侧</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+          <tr><td>罗马尼亚硬拉</td><td class="sets">4×8-12</td><td class="note">臀后侧，护膝</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
+          <tr><td>哑铃深蹲</td><td class="sets">3×10-12</td><td class="note">中等重量</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
+          <tr><td>平板支撑</td><td class="sets">2×40秒</td><td class="note">核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段二 · 第 5–8 周：加量加控制</div>
       <div class="day">
         <div class="day-head"><span class="day-name">周二 · 下肢（强）</span><span class="day-tag">臀腿+O型腿</span></div>
         <table>
@@ -188,7 +194,42 @@
           <tr><td>平板支撑</td><td class="sets">3×45秒</td><td class="note">核心</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
         </table>
       </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段三 · 第 9–12 周：渐进超负荷</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周二 · 下肢（强）</span><span class="day-tag">臀腿+O型腿</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>蚌式开合</td><td class="sets">4×15/侧</td><td class="note">臀中肌</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+          <tr><td>侧卧内收腿</td><td class="sets">4×15/侧</td><td class="note">内侧</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+          <tr><td>罗马尼亚硬拉</td><td class="sets">4×10-12</td><td class="note">可加重量</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
+          <tr><td>哑铃深蹲</td><td class="sets">4×10-12</td><td class="note">中等重量</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
+          <tr><td>平板支撑</td><td class="sets">3×50秒</td><td class="note">核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
 
+  <!-- ===== 周四 Tab ===== -->
+  <div class="tab-content" id="day4">
+    <div class="phase">
+      <div class="phase-title">阶段一 · 第 1–4 周：找发力感</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周四 · 上肢拉（强 · 已补强）</span><span class="day-tag">背+二头</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>高位下拉</td><td class="sets">4×8-12</td><td class="note">背宽，倒三角</td><td><button class="rest-btn" data-sec="90">90s</button></td></tr>
+          <tr><td>单臂哑铃划船 <b style="color:#10b981">新增</b></td><td class="sets">3×10-12/侧</td><td class="note">补背阔厚度与发力感</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
+          <tr><td>坐姿划船</td><td class="sets">3×10-12</td><td class="note">中背厚度</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
+          <tr><td>面拉</td><td class="sets">3×12-15</td><td class="note">护肩+改善圆肩</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>哑铃弯举</td><td class="sets">3×12</td><td class="note">二头</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>仰卧举腿</td><td class="sets">2×12</td><td class="note">下腹</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段二 · 第 5–8 周：加量加控制</div>
       <div class="day">
         <div class="day-head"><span class="day-name">周四 · 上肢拉（强 · 已补强）</span><span class="day-tag">背+二头</span></div>
         <table>
@@ -201,51 +242,9 @@
           <tr><td>仰卧举腿</td><td class="sets">3×12</td><td class="note">下腹</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
         </table>
       </div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周五 · 全身轻（弱）</span><span class="day-tag weak">二次刺激</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>标准俯卧撑</td><td class="sets">3×12</td><td class="note">慢下放</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
-          <tr><td>绳索夹胸</td><td class="sets">3×15</td><td class="note">胸缝</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
-          <tr><td>直臂下压</td><td class="sets">4×12-15</td><td class="note">背阔二次刺激</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
-          <tr><td>单腿臀桥</td><td class="sets">3×15/侧</td><td class="note">臀中肌</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
-          <tr><td>核心循环</td><td class="sets">各2组</td><td class="note">卷腹+举腿+平板</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
-        </table>
-      </div>
     </div>
-  </div>
-
-  <!-- 阶段三 -->
-  <div class="tab-content" id="phase3">
     <div class="phase">
       <div class="phase-title">阶段三 · 第 9–12 周：渐进超负荷</div>
-      <div class="phase-desc">同重量连续两次标准做满次数上限，才加 2.5kg；背阔日高位下拉与划船可各加 1 组，总背组数到 18–20 组/周。</div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周一 · 上肢推（强）</span><span class="day-tag">胸肩三头</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>上斜哑铃卧推</td><td class="sets">4×10-12</td><td class="note">优先上胸</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
-          <tr><td>平板哑铃卧推</td><td class="sets">5×8-12</td><td class="note">保标准</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
-          <tr><td>坐姿哑铃推举</td><td class="sets">3×12</td><td class="note">肩宽</td><td><button class="rest-btn" data-sec="75">75s</button></td></tr>
-          <tr><td>绳索下压</td><td class="sets">3×15</td><td class="note">三头</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
-          <tr><td>卷腹</td><td class="sets">3×15</td><td class="note">末尾</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-        </table>
-      </div>
-
-      <div class="day">
-        <div class="day-head"><span class="day-name">周二 · 下肢（强）</span><span class="day-tag">臀腿+O型腿</span></div>
-        <table>
-          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
-          <tr><td>蚌式开合</td><td class="sets">4×15/侧</td><td class="note">臀中肌</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-          <tr><td>侧卧内收腿</td><td class="sets">4×15/侧</td><td class="note">内侧</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-          <tr><td>罗马尼亚硬拉</td><td class="sets">4×10-12</td><td class="note">可加重量</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
-          <tr><td>哑铃深蹲</td><td class="sets">4×10-12</td><td class="note">中等重量</td><td><button class="rest-btn" data-sec="85">85s</button></td></tr>
-          <tr><td>平板支撑</td><td class="sets">3×50秒</td><td class="note">核心</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
-        </table>
-      </div>
-
       <div class="day">
         <div class="day-head"><span class="day-name">周四 · 上肢拉（强 · 已补强）</span><span class="day-tag">背+二头</span></div>
         <table>
@@ -258,7 +257,41 @@
           <tr><td>仰卧举腿</td><td class="sets">3×12</td><td class="note">下腹</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
         </table>
       </div>
+    </div>
+  </div>
 
+  <!-- ===== 周五 Tab ===== -->
+  <div class="tab-content" id="day5">
+    <div class="phase">
+      <div class="phase-title">阶段一 · 第 1–4 周：找发力感</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周五 · 全身轻（弱）</span><span class="day-tag weak">二次刺激</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>标准俯卧撑</td><td class="sets">3×8-12</td><td class="note">胸二次刺激，慢下放</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>绳索夹胸</td><td class="sets">3×12-15</td><td class="note">胸缝线条</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>直臂下压 <b style="color:#10b981">替换硬拉</b></td><td class="sets">3×12-15</td><td class="note">背阔二次刺激</td><td><button class="rest-btn" data-sec="60">60s</button></td></tr>
+          <tr><td>单腿臀桥</td><td class="sets">3×12/侧</td><td class="note">臀中肌补强</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+          <tr><td>卷腹+举腿+平板</td><td class="sets">各2组</td><td class="note">简短核心循环</td><td><button class="rest-btn" data-sec="45">45s</button></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段二 · 第 5–8 周：加量加控制</div>
+      <div class="day">
+        <div class="day-head"><span class="day-name">周五 · 全身轻（弱）</span><span class="day-tag weak">二次刺激</span></div>
+        <table>
+          <tr><th>动作</th><th>组×次</th><th>要点</th><th>休息</th></tr>
+          <tr><td>标准俯卧撑</td><td class="sets">3×12</td><td class="note">慢下放</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
+          <tr><td>绳索夹胸</td><td class="sets">3×15</td><td class="note">胸缝</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
+          <tr><td>直臂下压</td><td class="sets">4×12-15</td><td class="note">背阔二次刺激</td><td><button class="rest-btn" data-sec="55">55s</button></td></tr>
+          <tr><td>单腿臀桥</td><td class="sets">3×15/侧</td><td class="note">臀中肌</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
+          <tr><td>核心循环</td><td class="sets">各2组</td><td class="note">卷腹+举腿+平板</td><td><button class="rest-btn" data-sec="40">40s</button></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-title">阶段三 · 第 9–12 周：渐进超负荷</div>
       <div class="day">
         <div class="day-head"><span class="day-name">周五 · 全身轻（弱）</span><span class="day-tag weak">二次刺激</span></div>
         <table>
@@ -295,20 +328,16 @@
 
 <script>
 (function(){
-  // === 新增：Tab 切换逻辑 ===
+  // === Tab 切换逻辑 ===
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // 移除所有按钮的 active 状态
       tabBtns.forEach(b => b.classList.remove('active'));
-      // 隐藏所有内容
       tabContents.forEach(c => c.classList.remove('active'));
       
-      // 激活当前按钮
       btn.classList.add('active');
-      // 显示对应内容
       const targetId = btn.getAttribute('data-target');
       document.getElementById(targetId).classList.add('active');
     });
@@ -330,73 +359,4 @@
     pauseBtn.textContent = running ? '暂停' : '继续';
   }
 
-  function tick(){
-    if(!running) return;
-    remain--;
-    if(remain <= 0){
-      remain = 0; running = false; clearInterval(timer); timer = null;
-      beep();
-    }
-    render();
-  }
-
-  function start(sec){
-    clearInterval(timer); timer = null;
-    total = sec; remain = sec; running = true;
-    labelEl.textContent = '休息计时 · ' + sec + ' 秒';
-    render();
-    timer = setInterval(tick, 1000);
-  }
-
-  function beep(){
-    try{
-      var ctx = new (window.AudioContext || window.webkitAudioContext)();
-      var o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = 880; o.type = 'sine';
-      g.gain.setValueAtTime(0.001, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-      o.start(); o.stop(ctx.currentTime + 0.5);
-    }catch(e){}
-    if(navigator.vibrate) navigator.vibrate(200);
-  }
-
-  // 注意：因为现在有多个 Tab，所以用事件委托或者重新绑定（因为按钮都在DOM里，可以直接绑）
-  document.querySelectorAll('.rest-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var sec = parseInt(btn.getAttribute('data-sec'), 10) || 60;
-      mask.classList.add('on');
-      start(sec);
-    });
-  });
-
-  pauseBtn.addEventListener('click', function(){
-    if(remain === 0) return;
-    running = !running;
-    if(running && !timer) timer = setInterval(tick, 1000);
-    render();
-  });
-
-  resetBtn.addEventListener('click', function(){
-    clearInterval(timer); timer = null;
-    remain = total; running = true;
-    render();
-    timer = setInterval(tick, 1000);
-  });
-
-  closeBtn.addEventListener('click', function(){
-    clearInterval(timer); timer = null; running = false;
-    mask.classList.remove('on');
-  });
-
-  mask.addEventListener('click', function(e){
-    if(e.target === mask){
-      clearInterval(timer); timer = null; running = false;
-      mask.classList.remove('on');
-    }
-  });
-})();
-</script>
-</body>
-</html>
+  function tick
